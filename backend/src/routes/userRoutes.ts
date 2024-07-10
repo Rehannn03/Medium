@@ -17,6 +17,7 @@ userRouter.post('/signup',async (c)=>{
     console.log(singnupInput.safeParse(body));
     
     if(!success){
+      c.status(400)
       return c.json({message: 'Invalid input'})
     }
     const prisma=new PrismaClient({
@@ -29,7 +30,8 @@ userRouter.post('/signup',async (c)=>{
       const user=await prisma.user.create({
         data:{
           email:body.username,
-          password:body.password
+          password:body.password,
+          name:body.name
         }
       })
     
@@ -39,7 +41,7 @@ userRouter.post('/signup',async (c)=>{
        })
     } catch (error) {
       console.log(error);
-      
+      c.status(401)
       return c.json({message: 'User already exists'})
     }
   })
@@ -49,6 +51,7 @@ userRouter.post('/signin',async (c)=>{
     const body=await c.req.json()
     const {success}=singninInput.safeParse(body)
     if(!success){
+      c.status(400)
       return c.json({message: 'Invalid input'})
     }
     const prisma=new PrismaClient({

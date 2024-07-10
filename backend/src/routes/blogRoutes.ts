@@ -36,6 +36,7 @@ blogRouter.post('/create',async(c)=>{
     const body = await c.req.json()
     const {success}=createPostInput.safeParse(body)
     if(!success){
+      c.status(400)
       return c.json({message: 'Invalid input'})
     }
     const userId=c.get('userId')
@@ -65,6 +66,7 @@ blogRouter.put('/update',async(c)=>{
     const body = await c.req.json()
     const {success}=updatePostInput.safeParse(body)
     if(!success){
+      c.status(400)
       return c.json({message: 'Invalid input'})
     }
     const prisma=new PrismaClient({
@@ -87,7 +89,7 @@ blogRouter.put('/update',async(c)=>{
        })
     } catch (error) {
       console.log(error);
-      
+      c.status(500)
       return c.json({message: 'Error updating blog'})
     }
     
@@ -100,7 +102,18 @@ blogRouter.put('/update',async(c)=>{
      
      }).$extends(withAccelerate())
      try {
-       const blogs=await prisma.post.findMany({})
+       const blogs=await prisma.post.findMany({
+        select:{
+          id:true,
+          title:true,
+          content:true,
+          author:{
+            select:{
+              name:true
+            }
+          }
+        }
+       })
  
         return c.json({
          blogs:blogs
@@ -121,6 +134,15 @@ blogRouter.get('/:id',async (c)=>{
       const blog=await prisma.post.findFirst({
         where:{
             id:c.req.param('id')
+        },
+        select:{
+          title:true,
+          content:true,
+          author:{
+            select:{
+              name:true
+            }
+          }
         }
       })
 
