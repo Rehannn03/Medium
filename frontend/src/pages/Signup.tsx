@@ -4,6 +4,9 @@ import { Link,useNavigate } from "react-router-dom"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import Alert from '../components/Alert.tsx'
+import Header from "../components/Header.tsx"
+import { toast } from "react-toastify"
+import 'react-toastify/ReactToastify.css';
 function Signup() {
     const navigate=useNavigate()
     const [input, setInput] = useState<SignupInput>({
@@ -21,7 +24,9 @@ function Signup() {
             console.log(response);
             
             if(response.status===200){
+                toast.success("Signed up successfully")
                 localStorage.setItem('token',response.data.jwt)
+                localStorage.setItem('name',response.data.user)
                 setInput({
                     username: "",
                     password: "",
@@ -30,14 +35,15 @@ function Signup() {
                 navigate('/blogs')
             }
             else{
-                alert(`${response.data.message}`)
+                toast.error(`${response.data.message}`)
             }
         } catch (error) {
-            <Alert message="Error in signing up" />
+            toast.error("Error in signing up")
         }
     }
     return (
         <section className="relative bg-white overflow-hidden">
+            <Header/>
             <div className="relative z-10 flex flex-wrap -m-6 h-full">
                 <div className="w-full md:w-1/2  bg-gradient-to-tr from-indigo-400 via-purple-300 to-pink-400 p-8 rounded-lg shadow-2xl">
                     <div className="container px-4 mx-auto">

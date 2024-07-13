@@ -37,7 +37,8 @@ userRouter.post('/signup',async (c)=>{
     
       const token =await sign({id:user.id},c.env.JWT_SECRET)
        return c.json({
-        jwt:token
+        jwt:token,
+        user:user.name
        })
     } catch (error) {
       console.log(error);
@@ -62,18 +63,25 @@ userRouter.post('/signin',async (c)=>{
     try {
       const user=await prisma.user.findUnique({
         where:{
-          email:body.username,
-          password:body.password
+          email:body.username
         }
       })
-    
+      if(user?.password!==body.password){
+        c.status(401)
+        return c.json({message: 'Invalid credentials'})
+      }
+      
       if(!user){
         return c.json({message: 'User not found'})
       }
-       const token =await sign({id:user?.id},c.env.JWT_SECRET)
-       return c.json({jwt: token})
+      
+      const token =await sign({id:user?.id},c.env.JWT_SECRET)
+       return c.json({jwt: token,
+        user:user.name
+       })
     } catch (error) {
       console.log(error);
+      c.status(401)
       return c.json({message: 'User not found'})
       
     }

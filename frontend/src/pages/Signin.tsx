@@ -3,6 +3,9 @@ import { useState, ChangeEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
+import Header from '../components/Header'
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 function Signin() {
     const [input, setInputs] = useState<SigninInput>({
         username: "",
@@ -18,7 +21,9 @@ function Signin() {
             console.log(response);
             
             if(response.status===200){
+                toast.success("Signed in successfully")
                 localStorage.setItem('token',response.data.jwt)
+                localStorage.setItem('name',response.data.user)
                 setInputs({
                     username: "",
                     password: ""
@@ -26,15 +31,16 @@ function Signin() {
                 navigate('/blogs')
             }
             else{
-                alert(`${response.data.message}`)
+                toast.error("Invalid credentials")
             }
         } catch (error) {
-            alert("Error in signing up")
+            toast.error("Invalid credentials")
         }
     }
     return (
-
-        <div className="relative bg-white overflow-hidden h-full">
+        <>
+        <Header/>
+        <div className="relative bg-white overflow-hidden ">
             <div className="relative z-10 flex flex-wrap -m-6 bg-gradient-to-b from-blue-500 to-white">
                 <div className="w-full md:w-1/2 p-5 ">
                     <div className="container px-4 mx-auto">
@@ -85,6 +91,7 @@ function Signin() {
                 </div>
             </div>
         </div>
+    </>
     )
 }
 

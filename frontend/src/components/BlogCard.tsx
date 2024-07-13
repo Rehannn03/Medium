@@ -10,6 +10,12 @@ interface BlogCardProps {
 
 
 const BlogCard = ({ id,title, content, authorName,datePublished }:BlogCardProps) => {
+    const formattedDate=new Date(datePublished).toLocaleDateString("en-US",{
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+    }
+    )
     return (
     <Link to={`/blog/${id}`}>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl hover:shadow-2xl m-3">
@@ -23,7 +29,7 @@ const BlogCard = ({ id,title, content, authorName,datePublished }:BlogCardProps)
                 </div>
                 <div className="text-sm">
                     <p className="text-gray-900 leading-none font-light">{authorName}</p>
-                    <p className="text-gray-600">{datePublished}</p>
+                    <p className="text-gray-600">{formattedDate}</p>
                 </div>
             </div>
         </div>

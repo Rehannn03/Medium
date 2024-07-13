@@ -40,10 +40,9 @@ blogRouter.post('/create',async(c)=>{
       return c.json({message: 'Invalid input'})
     }
     const userId=c.get('userId')
-    const prisma=new PrismaClient({
-      datasourceUrl:c.env.DATABASE_URL,
-    
-    }).$extends(withAccelerate())
+    const prisma = new PrismaClient({
+      datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate());
     try {
       const blog=await prisma.post.create({
         data:{
@@ -111,7 +110,8 @@ blogRouter.put('/update',async(c)=>{
             select:{
               name:true
             }
-          }
+          },
+          date:true
         }
        })
  
@@ -142,7 +142,8 @@ blogRouter.get('/:id',async (c)=>{
             select:{
               name:true
             }
-          }
+          },
+          date:true
         }
       })
 
@@ -156,4 +157,25 @@ blogRouter.get('/:id',async (c)=>{
     }
  })
  
- 
+blogRouter.delete('/:id',async (c)=>{
+    const prisma=new PrismaClient({
+      datasourceUrl:c.env.DATABASE_URL,
+    
+    }).$extends(withAccelerate())
+    try {
+      const blog=await prisma.post.delete({
+        where:{
+            id:c.req.param('id')
+        }
+      })
+
+      c.status(200)
+      return c.json({
+        message: 'Blog deleted'
+      })
+    } catch (error) {
+      console.log(error);
+      c.status(401)
+      return c.json({message: 'Error updating blog'})
+    }
+ })

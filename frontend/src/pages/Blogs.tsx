@@ -2,7 +2,6 @@ import { useBlogs } from "../hooks"
 import BlogCard from "../components/BlogCard"
 import { BlogSkeleton } from "../components/BlogSkeleton"
 import Navbar from "../components/Navbar"
-import { useEffect,useState } from "react"
 
 export interface Blog{
     "content":string,
@@ -10,7 +9,8 @@ export interface Blog{
     "id":string,
     "author":{
         "name":string
-    }
+    },
+    "date":string
 }
 function Blogs() {
     const {loading,blogs}=useBlogs()
@@ -37,9 +37,10 @@ function Blogs() {
             
                 {
                     blogs && blogs.map(blog=>(
-                        <BlogCard key={blog.id} id={blog.id} title={blog.title} content={blog.content} authorName={blog.author.name} datePublished={"12th June"}/>
+                        <BlogCard key={blog.id} id={blog.id} title={blog.title} content={blog.content} authorName={blog.author.name} datePublished={blog.date}/>
                     ))
                 }
+                
                 </div>
         </div>
     </div>
