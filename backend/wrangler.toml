@@ -3,6 +3,6 @@ compatibility_date='2023-12-01'
 
 
 [vars]
-DATABASE_URL= "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMTNhMDc0ODgtNjllOS00NTIyLWEzNjMtMmU1YzMwNmM2NDVhIiwidGVuYW50X2lkIjoiNjA1YzFmZjI3YWNiYmYxZDJmNjA5OWVhYmZkMjRmZjU0Y2FjMDc0NjMzMWFhYTNjNzkzNTdhMDE2ZTk2ZmI1ZCIsImludGVybmFsX3NlY3JldCI6IjZiOTcyYzNjLTg0YzktNDA3Yy1iOWNkLTFjZWVkMWQxZDA5NiJ9.08FaER1RvL16hWDqaayOvpkY2polW2MMIYe70qozM4k"
+DATABASE_URL= ""
 
-JWT_SECRET= "mysecret321"
+JWT_SECRET= ""
