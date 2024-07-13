@@ -3,7 +3,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 
 export interface Blog{
-    date: string;
+    "date": string;
     "content":string,
     "title":string,
     "id":string,
@@ -15,7 +15,7 @@ export interface Blog{
 
 export function useBlog({id}:{id:string}){
     const[loading,setLoading]=useState(true)
-    const[blog,setBlog]=useState<Blog[]>()
+    const[blog,setBlog]=useState<Blog>()
 
     useEffect(()=>{
         try {

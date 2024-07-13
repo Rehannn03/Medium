@@ -1,14 +1,16 @@
 import Navbar from "../components/Navbar"
 import { useBlog } from "../hooks"
 import { useParams } from "react-router-dom"
+import type { Blog } from "../hooks"
 
 function Blog() {
   const { id } = useParams<{ id: string }>()
-  const { loading, blog } = useBlog(
+  const { loading, blog }: { loading: boolean , blog:Blog | undefined} = useBlog(
     {
       id: id || ""
     }
   )
+  
   if (loading || !blog) {
     return (
       <div className="flex justify-center items-center h-screen">
